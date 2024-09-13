@@ -26,6 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const StoreSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
-    address: { type: String, required: true },
+    address: { type: String, required: true }
 });
-exports.default = mongoose_1.default.model('Store', StoreSchema);
+const StoreModel = mongoose_1.default.model('Store', StoreSchema);
+exports.default = StoreModel;

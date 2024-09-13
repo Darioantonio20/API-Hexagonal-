@@ -17,46 +17,71 @@ class UserController {
     }
     createUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id, name, email, password } = req.body;
-            const newUser = new user_1.User(id, name, email, password);
-            const createdUser = yield this.userService.createUser(newUser);
-            res.status(201).json(createdUser);
+            try {
+                const { id, name, email, password } = req.body;
+                const newUser = new user_1.User(id, name, email, password);
+                const createdUser = yield this.userService.createUser(newUser);
+                res.status(201).json({ message: 'Usuario creado correctamente', user: createdUser }); // 201 Created
+            }
+            catch (error) {
+                res.status(500).json({ message: 'Error al crear el usuario', error: error.message }); // 500 Internal Server Error
+            }
         });
     }
     getUserById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.userService.getUserById(req.params.id);
-            if (!user) {
-                res.status(404).send('User not found');
-                return;
+            try {
+                const user = yield this.userService.getUserById(req.params.id);
+                if (!user) {
+                    res.status(404).send('Usuario no encontrado');
+                    return;
+                }
+                res.json({ message: 'Usuario encontrado correctamente', user });
             }
-            res.json(user);
+            catch (error) {
+                res.status(500).json({ message: 'Error al recuperar el usuario', error: error.message }); // 500 Internal Server Error
+            }
         });
     }
     getAllUsers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const users = yield this.userService.getAllUsers();
-            res.json(users);
+            try {
+                const users = yield this.userService.getAllUsers();
+                res.json({ message: 'Lista de usuarios recuperada correctamente', users });
+            }
+            catch (error) {
+                res.status(500).json({ message: 'Error al recuperar la lista de usuarios', error: error.message }); // 500 Internal Server Error
+            }
         });
     }
     updateUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const updatedUser = yield this.userService.updateUser(req.params.id, req.body);
-            if (!updatedUser) {
-                res.status(404).send('User not found');
-                return;
+            try {
+                const updatedUser = yield this.userService.updateUser(req.params.id, req.body);
+                if (!updatedUser) {
+                    res.status(404).send('Usuario no encontrado');
+                    return;
+                }
+                res.json({ message: 'Usuario actualizado correctamente', user: updatedUser });
             }
-            res.json(updatedUser);
+            catch (error) {
+                res.status(500).json({ message: 'Error al actualizar el usuario', error: error.message }); // 500 Internal Server Error
+            }
         });
     }
     deleteUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const success = yield this.userService.deleteUser(req.params.id);
-            if (!success) {
-                res.status(404).send('User not found');
-                return;
+            try {
+                const success = yield this.userService.deleteUser(req.params.id);
+                if (!success) {
+                    res.status(404).send('Usuario no encontrado');
+                    return;
+                }
+                res.json({ message: 'Usuario eliminado correctamente' });
             }
-            res.status(204).send();
+            catch (error) {
+                res.status(500).json({ message: 'Error al eliminar el usuario', error: error.message }); // 500 Internal Server Error
+            }
         });
     }
 }
