@@ -12,7 +12,7 @@ const app = (0, express_1.default)();
 const port = process.env.PORT || 5001;
 (0, mongoConnection_1.default)();
 app.use(express_1.default.json());
-app.use('/api', userRoutes_1.default);
+app.use(userRoutes_1.default);
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
